@@ -21,7 +21,42 @@ namespace AtmWebApi.Repositories
         }
         public Banknotes withdrawal(int amount)
         {
-            return this.banknotes;
+            Banknotes bankNotesOut = new Banknotes();
+            Dictionary<int, int> banknotesKeyValue = this.banknotes.getInKeyValue();
+            Dictionary<int, int> banknotesKeyValueOut = bankNotesOut.getInKeyValue();
+            int totalAmount = this.banknotes.getTotalAmount();
+            if(totalAmount>=amount)
+            {
+                foreach (var item in banknotesKeyValue)
+                {
+                    while (item.Key <= amount && banknotesKeyValue[item.Key] > 0 && amount != 0)
+                    {
+                        amount -= item.Key;
+                        banknotesKeyValueOut[item.Key]++;
+                        banknotesKeyValue[item.Key]--;
+                    }
+                }
+            }
+            if(amount==0)
+            {
+
+                bankNotesOut.setFromKeyValue(banknotesKeyValueOut);
+                this.banknotes.setFromKeyValue(banknotesKeyValue);
+                string sql = "Update Banknote set oneThousand=@oneThousand," +
+                                             "twoThousand=@twoThousand," +
+                                              "fiveThousand=@fiveThousand," +
+                                              "tenThousand=@tenThousand," +
+                                              "twentyThousand=@twentyThousand";
+                this.dal.update<Banknotes>(sql, this.banknotes);
+                this.updateBanknotes();
+
+                return bankNotesOut;
+            }
+            else
+            {
+                return null;
+            }
+          
         }
         public int deposit(Banknotes newBankNotes)
         {

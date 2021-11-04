@@ -37,7 +37,7 @@ namespace AtmWebApi.Models
                    (BanknotesTypes.tenThousand * this.tenThousand) +
                    (BanknotesTypes.twentyThousand * this.twentyThousand);
         }
-        public Dictionary<int,int> getInKeyValueFormat()
+        public Dictionary<int,int> getInKeyValue()
         {
             Dictionary<int, int> result = new Dictionary<int, int>();
             result.Add(BanknotesTypes.twentyThousand, this.twentyThousand);
@@ -47,6 +47,14 @@ namespace AtmWebApi.Models
             result.Add(BanknotesTypes.oneThousand, this.oneThousand);
 
             return result;
+        }
+        public void setFromKeyValue(Dictionary<int,int> values)
+        {
+            this.twentyThousand = values[BanknotesTypes.twentyThousand];
+            this.tenThousand = values[BanknotesTypes.tenThousand];
+            this.fiveThousand = values[BanknotesTypes.fiveThousand];
+            this.twoThousand = values[BanknotesTypes.twoThousand];
+            this.oneThousand = values[BanknotesTypes.oneThousand];
         }
         public bool validate()
         {
