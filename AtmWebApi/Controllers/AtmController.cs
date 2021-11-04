@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AtmWebApi.Models;
+using AtmWebApi.Repositories;
 
 namespace AtmWebApi.Controllers
 {
@@ -12,17 +13,24 @@ namespace AtmWebApi.Controllers
     [ApiController]
     public class AtmController : ControllerBase
     {
+        AtmRepository repository;
+
+        public AtmController()
+        {
+            this.repository = new AtmRepository();
+        }
+
         [HttpPost]
         [Route("withdrawal")]
         public Banknotes Withdrawal(int amount)
         {
-            return null;
+            return this.repository.Withdrawal(amount);
         }
         [HttpPost]
         [Route("deposit")]
         public Banknotes Deposit(Banknotes bankNotes)
         {
-            return null;
+            return this.repository.Deposit(bankNotes);
         }
     }
 }
