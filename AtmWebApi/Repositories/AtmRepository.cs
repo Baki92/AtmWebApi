@@ -14,9 +14,9 @@ namespace AtmWebApi.Repositories
         {
             return null;
         }
-        public Banknotes Deposit(Banknotes bankNotes)
+        public int Deposit(Banknotes bankNotes)
         {
-            return null;
+            return 0;
         }
     }
 }

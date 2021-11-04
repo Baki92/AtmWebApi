@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AtmWebApi.Models;
 using AtmWebApi.Repositories;
+using static System.Net.WebRequestMethods;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace AtmWebApi.Controllers
 {
@@ -22,15 +25,28 @@ namespace AtmWebApi.Controllers
 
         [HttpPost]
         [Route("withdrawal")]
-        public Banknotes Withdrawal(int amount)
+        public IActionResult Withdrawal(int amount)
         {
-            return this.repository.Withdrawal(amount);
+            if (amount % 1000 != 0)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            Banknotes result = this.repository.Withdrawal(amount);
+            if(result==null)
+            {
+                return StatusCode(StatusCodes.Status503ServiceUnavailable);
+            }
+            return Ok(result);
         }
         [HttpPost]
         [Route("deposit")]
-        public Banknotes Deposit(Banknotes bankNotes)
+        public IActionResult Deposit(Banknotes bankNotes)
         {
-            return this.repository.Deposit(bankNotes);
+            if (!bankNotes.Validate())
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+            return Ok(this.repository.Deposit(bankNotes));
         }
     }
 }

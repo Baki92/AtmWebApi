@@ -1,4 +1,5 @@
 ﻿using AtmWebApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace AtmWebApi.Interfaces
     interface IAtmRepository
     {
         public Banknotes Withdrawal(int amount);
-        public Banknotes Deposit(Banknotes bankNotes);
+        public int Deposit(Banknotes bankNotes);
     }
 }

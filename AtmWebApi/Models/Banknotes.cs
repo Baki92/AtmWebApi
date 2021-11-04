@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AtmWebApi.Models
 {
@@ -18,5 +20,15 @@ namespace AtmWebApi.Models
         public int tenThousand { get; set; }
         [JsonPropertyName("20000")]
         public int twentyThousand { get; set; }
+
+        public bool Validate()
+        {
+            if(this.oneThousand==0 && this.twoThousand==0 && this.fiveThouand==0 && this.tenThousand==0 && this.twentyThousand==0)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }
