@@ -25,13 +25,13 @@ namespace AtmWebApi.Controllers
 
         [HttpPost]
         [Route("withdrawal")]
-        public IActionResult Withdrawal(int amount)
+        public IActionResult withdrawal(int amount)
         {
             if (amount % 1000 != 0)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
-            Banknotes result = this.repository.Withdrawal(amount);
+            Banknotes result = this.repository.withdrawal(amount);
             if(result==null)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
@@ -40,13 +40,13 @@ namespace AtmWebApi.Controllers
         }
         [HttpPost]
         [Route("deposit")]
-        public IActionResult Deposit(Banknotes bankNotes)
+        public IActionResult deposit(Banknotes bankNotes)
         {
-            if (!bankNotes.Validate())
+            if (!bankNotes.validate())
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
-            return Ok(this.repository.Deposit(bankNotes));
+            return Ok(this.repository.deposit(bankNotes));
         }
     }
 }

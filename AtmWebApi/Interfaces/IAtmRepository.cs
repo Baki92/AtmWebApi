@@ -9,7 +9,7 @@ namespace AtmWebApi.Interfaces
 {
     interface IAtmRepository
     {
-        public Banknotes Withdrawal(int amount);
-        public int Deposit(Banknotes bankNotes);
+        public Banknotes withdrawal(int amount);
+        public int deposit(Banknotes bankNotes);
     }
 }
