@@ -15,7 +15,7 @@ namespace AtmWebApi.Models
         [JsonPropertyName("2000")]
         public int twoThousand { get; set; }
         [JsonPropertyName("5000")]
-        public int fiveThouand { get; set; }
+        public int fiveThousand { get; set; }
         [JsonPropertyName("10000")]
         public int tenThousand { get; set; }
         [JsonPropertyName("20000")]
@@ -23,11 +23,11 @@ namespace AtmWebApi.Models
 
         public bool Validate()
         {
-            if(this.oneThousand==0 && this.twoThousand==0 && this.fiveThouand==0 && this.tenThousand==0 && this.twentyThousand==0)
+            if(this.oneThousand==0 && this.twoThousand==0 && this.fiveThousand == 0 && this.tenThousand==0 && this.twentyThousand==0)
             {
                 return false;
             }
-            else if(this.oneThousand < 0 || this.twoThousand < 0 || this.fiveThouand < 0 || this.tenThousand < 0 || this.twentyThousand < 0)
+            else if(this.oneThousand < 0 || this.twoThousand < 0 || this.fiveThousand < 0 || this.tenThousand < 0 || this.twentyThousand < 0)
             {
                 return false;
             }
