@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AtmWebApi.Models;
 
 namespace AtmWebApi.Controllers
 {
@@ -13,15 +14,15 @@ namespace AtmWebApi.Controllers
     {
         [HttpPost]
         [Route("withdrawal")]
-        public void Withdrawal()
+        public Banknotes Withdrawal(int amount)
         {
-
+            return null;
         }
         [HttpPost]
         [Route("deposit")]
-        public void Deposit(int amount)
+        public Banknotes Deposit(Banknotes bankNotes)
         {
-
+            return null;
         }
     }
 }

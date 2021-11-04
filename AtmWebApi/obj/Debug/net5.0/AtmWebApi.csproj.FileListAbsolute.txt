@@ -26,3 +26,4 @@ D:\Programozas\Projects\Mortoff\AtmWebApi\AtmWebApi\obj\Debug\net5.0\AtmWebApi.d
 D:\Programozas\Projects\Mortoff\AtmWebApi\AtmWebApi\obj\Debug\net5.0\ref\AtmWebApi.dll
 D:\Programozas\Projects\Mortoff\AtmWebApi\AtmWebApi\obj\Debug\net5.0\AtmWebApi.pdb
 D:\Programozas\Projects\Mortoff\AtmWebApi\AtmWebApi\obj\Debug\net5.0\AtmWebApi.genruntimeconfig.cache
+D:\Programozas\Projects\Mortoff\AtmWebApi\AtmWebApi\obj\Debug\net5.0\AtmWebApi.csproj.AssemblyReference.cache
