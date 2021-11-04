@@ -12,7 +12,7 @@ namespace AtmWebApi.Repositories
     {
         public Banknotes Withdrawal(int amount)
         {
-            return null;
+            return new Banknotes();
         }
         public int Deposit(Banknotes bankNotes)
         {

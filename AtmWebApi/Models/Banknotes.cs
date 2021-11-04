@@ -27,6 +27,10 @@ namespace AtmWebApi.Models
             {
                 return false;
             }
+            else if(this.oneThousand < 0 || this.twoThousand < 0 || this.fiveThouand < 0 || this.tenThousand < 0 || this.twentyThousand < 0)
+            {
+                return false;
+            }
             return true;
         }
 
