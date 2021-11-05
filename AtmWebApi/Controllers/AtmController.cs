@@ -9,6 +9,7 @@ using AtmWebApi.Repositories;
 using static System.Net.WebRequestMethods;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
+using NLog;
 
 namespace AtmWebApi.Controllers
 {
@@ -16,11 +17,19 @@ namespace AtmWebApi.Controllers
     [ApiController]
     public class AtmController : ControllerBase
     {
-        AtmRepository repository;
-
+        private AtmRepository repository;
+        private readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public AtmController()
         {
-            this.repository = new AtmRepository();
+            try
+            {
+                this.repository = new AtmRepository();
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex.Message);
+            }
+            
         }
 
         [HttpPost]
@@ -30,15 +39,36 @@ namespace AtmWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Banknotes))]
         public IActionResult withdrawal(int amount)
         {
+            if (this.repository == null)
+            {
+                this.logger.Error("Repository not inited");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            Banknotes result = null;
+            this.logger.Info("api/withdrawal called");
+            this.logger.Info("api/withdrawal input param: {0}",amount);
             if (amount % 1000 != 0 || amount<=0)
             {
+                this.logger.Error("Input parameter is invalid");
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
-            Banknotes result = this.repository.withdrawal(amount);
+
+            try
+            {
+                result = this.repository.withdrawal(amount);
+            }
+            catch(Exception ex)
+            {
+                this.logger.Error(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
             if(result==null)
             {
+                this.logger.Error("Not storing enough banknotes");
                 return StatusCode(StatusCodes.Status503ServiceUnavailable);
             }
+            this.logger.Info("Money withdrawal successfully");
             return Ok(result);
         }
         [HttpPost]
@@ -47,11 +77,32 @@ namespace AtmWebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(int))]
         public IActionResult deposit(Banknotes bankNotes)
         {
+            if (this.repository == null)
+            {
+                this.logger.Error("Repository not inited");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            int result = 0;
+            this.logger.Info("api/deposit called");
+            this.logger.Info("api/deposit input param: {0}", bankNotes.convertToJsonFromat());
             if (!bankNotes.validate())
             {
+                this.logger.Error("Input parameter is invalid");
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
-            return Ok(this.repository.deposit(bankNotes));
+
+            try
+            {
+                result = this.repository.deposit(bankNotes);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
+            this.logger.Info("Money deposit successfully");
+            return Ok(result);
         }
     }
 }

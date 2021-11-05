@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace AtmWebApi.Models
 {
     public class Banknotes
     {
+        private readonly ILogger logger = LogManager.GetCurrentClassLogger();
+
         [JsonPropertyName("1000")]
         public int oneThousand { get; set; }
         [JsonPropertyName("2000")]
@@ -24,6 +27,7 @@ namespace AtmWebApi.Models
 
         public int getTotalAmount()
         {
+            this.logger.Info("Calculate banknotes total amount");
             Dictionary<int, int> banknotesKeyValue = this.getInKeyValue();
             int totalAmount = 0;
             foreach (var item in banknotesKeyValue)
@@ -34,11 +38,18 @@ namespace AtmWebApi.Models
         }
         public Dictionary<int,int> getInKeyValue()
         {
-            return JsonSerializer.Deserialize<Dictionary<int, int>>(JsonSerializer.Serialize(this));
+            this.logger.Info("Convert banknotes to key value pairs");
+            return JsonSerializer.Deserialize<Dictionary<int, int>>(this.convertToJsonFromat());
         }
         public Banknotes setFromKeyValue(Dictionary<int,int> values)
         {
+            this.logger.Info("Convert banknotes key value pairs to Banknotes object");
             return JsonSerializer.Deserialize<Banknotes>(JsonSerializer.Serialize(values));
+        }
+        public string convertToJsonFromat()
+        {
+            this.logger.Info("Convert banknotes to json object");
+            return JsonSerializer.Serialize(this);
         }
         public bool validate()
         {
