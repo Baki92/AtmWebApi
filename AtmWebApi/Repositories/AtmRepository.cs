@@ -83,6 +83,13 @@ namespace AtmWebApi.Repositories
             this.logger.Info("Update repository local banknote object");
             string sql = "Select * From  Banknote";
             this.banknotes=this.dal.get<Banknotes>(sql, null);
+            if(this.banknotes==null)
+            {
+                this.banknotes = new Banknotes();
+                sql = "Insert into Banknote(oneThousand,twoThousand,fiveThousand,tenThousand,twentyThousand) " +
+                                           "Values(@oneThousand,@twoThousand,@fiveThousand,@tenThousand,@twentyThousand)";
+                this.dal.insert<Banknotes>(sql, this.banknotes);
+            }
             this.logger.Info("Successfully updated local banknote object");
         }
     }
