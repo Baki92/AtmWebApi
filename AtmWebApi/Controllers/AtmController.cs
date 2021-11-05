@@ -25,6 +25,9 @@ namespace AtmWebApi.Controllers
 
         [HttpPost]
         [Route("withdrawal")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Banknotes))]
         public IActionResult withdrawal(int amount)
         {
             if (amount % 1000 != 0 || amount<=0)
@@ -40,6 +43,8 @@ namespace AtmWebApi.Controllers
         }
         [HttpPost]
         [Route("deposit")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type=typeof(int))]
         public IActionResult deposit(Banknotes bankNotes)
         {
             if (!bankNotes.validate())
