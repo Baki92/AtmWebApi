@@ -12,7 +12,7 @@ namespace AtmWebApi.Repositories
 {
     public class AtmRepository:IAtmRepository
     {
-        private Dal dal = null;
+        private IDal dal = null;
         private Banknotes banknotes = null;
         private readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public AtmRepository()

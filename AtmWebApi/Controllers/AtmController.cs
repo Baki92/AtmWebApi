@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AtmWebApi.Models;
 using AtmWebApi.Repositories;
+using AtmWebApi.Interfaces;
 using static System.Net.WebRequestMethods;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
+
 using NLog;
 
 namespace AtmWebApi.Controllers
@@ -17,7 +19,7 @@ namespace AtmWebApi.Controllers
     [ApiController]
     public class AtmController : ControllerBase
     {
-        private AtmRepository repository;
+        private IAtmRepository repository;
         private readonly ILogger logger = LogManager.GetCurrentClassLogger();
         public AtmController()
         {
