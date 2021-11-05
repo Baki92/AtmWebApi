@@ -27,7 +27,7 @@ namespace AtmWebApi.Controllers
         [Route("withdrawal")]
         public IActionResult withdrawal(int amount)
         {
-            if (amount % 1000 != 0)
+            if (amount % 1000 != 0 || amount<=0)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }

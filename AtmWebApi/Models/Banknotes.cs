@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace AtmWebApi.Models
 {
-    public struct BanknotesTypes
-    {
-        public const int oneThousand = 1000;
-        public const int twoThousand = 2000;
-        public const int fiveThousand = 5000;
-        public const int tenThousand = 10000;
-        public const int twentyThousand = 20000;
-    }
     public class Banknotes
     {
         [JsonPropertyName("1000")]
@@ -31,30 +24,21 @@ namespace AtmWebApi.Models
 
         public int getTotalAmount()
         {
-            return (BanknotesTypes.oneThousand * this.oneThousand) +
-                   (BanknotesTypes.twoThousand * this.twoThousand) +
-                   (BanknotesTypes.fiveThousand * this.fiveThousand) +
-                   (BanknotesTypes.tenThousand * this.tenThousand) +
-                   (BanknotesTypes.twentyThousand * this.twentyThousand);
+            Dictionary<int, int> banknotesKeyValue = this.getInKeyValue();
+            int totalAmount = 0;
+            foreach (var item in banknotesKeyValue)
+            {
+                totalAmount += item.Key * item.Value;
+            }
+            return totalAmount;
         }
         public Dictionary<int,int> getInKeyValue()
         {
-            Dictionary<int, int> result = new Dictionary<int, int>();
-            result.Add(BanknotesTypes.twentyThousand, this.twentyThousand);
-            result.Add(BanknotesTypes.tenThousand, this.tenThousand);
-            result.Add(BanknotesTypes.fiveThousand, this.fiveThousand);
-            result.Add(BanknotesTypes.twoThousand, this.twoThousand);
-            result.Add(BanknotesTypes.oneThousand, this.oneThousand);
-
-            return result;
+            return JsonSerializer.Deserialize<Dictionary<int, int>>(JsonSerializer.Serialize(this));
         }
-        public void setFromKeyValue(Dictionary<int,int> values)
+        public Banknotes setFromKeyValue(Dictionary<int,int> values)
         {
-            this.twentyThousand = values[BanknotesTypes.twentyThousand];
-            this.tenThousand = values[BanknotesTypes.tenThousand];
-            this.fiveThousand = values[BanknotesTypes.fiveThousand];
-            this.twoThousand = values[BanknotesTypes.twoThousand];
-            this.oneThousand = values[BanknotesTypes.oneThousand];
+            return JsonSerializer.Deserialize<Banknotes>(JsonSerializer.Serialize(values));
         }
         public bool validate()
         {

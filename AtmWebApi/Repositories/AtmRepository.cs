@@ -27,7 +27,7 @@ namespace AtmWebApi.Repositories
             int totalAmount = this.banknotes.getTotalAmount();
             if(totalAmount>=amount)
             {
-                foreach (var item in banknotesKeyValue)
+                foreach (var item in banknotesKeyValue.Reverse())
                 {
                     while (item.Key <= amount && banknotesKeyValue[item.Key] > 0 && amount != 0)
                     {
@@ -39,9 +39,9 @@ namespace AtmWebApi.Repositories
             }
             if(amount==0)
             {
+                bankNotesOut=bankNotesOut.setFromKeyValue(banknotesKeyValueOut);
+                this.banknotes=this.banknotes.setFromKeyValue(banknotesKeyValue);
 
-                bankNotesOut.setFromKeyValue(banknotesKeyValueOut);
-                this.banknotes.setFromKeyValue(banknotesKeyValue);
                 string sql = "Update Banknote set oneThousand=@oneThousand," +
                                              "twoThousand=@twoThousand," +
                                               "fiveThousand=@fiveThousand," +
